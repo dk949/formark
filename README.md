@@ -1,9 +1,11 @@
 # Formark - A formatter for Markdown
+
 - [Usage](#usage)
   - [Basic usage](#basic-usage)
   - [Options](#options)
 - [Roadmap](#roadmap)
-  - [Input and output](#input-and-output)
+  - [Features](#features)
+  - [Bugs](#bugs)
 
 ## Usage
 
@@ -24,13 +26,13 @@ formark -f unformatted.md -o formatted.md
 For all options that take a value, the value is separated form the option by a
 space, e.g. `-f file.md`
 
-- `-f`
+- `-f,--input-file`
 
   - Expected value: file path
   - Default value: None, this flag has to be specified
   - Description: path to the input file which will be formatted
 
-- `-o`
+- `-o,--output-file`
 
   - Expected value: file path
   - Default value: None, this flag has to be specified
@@ -38,13 +40,13 @@ space, e.g. `-f file.md`
     to.
     - Can be same as `-f`
 
-- `-i`
+- `-i,--indentation`
 
   - Expected value: integer
-  - Default value: 4
+  - Default value: 2
   - Description: Indentation level specified as number of spaces.
 
-- `-l`
+- `-l,--max-line-length`
 
   - Expected value: integer
   - Default value: 80
@@ -53,18 +55,12 @@ space, e.g. `-f file.md`
     this value.
     - Wrapping is done as a single line break, so output is not affected.
 
-- `-b`
+- `-s,--use-star`
 
-  - Expected value: one of '\*' or '-'
-  - Default value: \*
-  - Description: Character used for bullet points
-
-- `-n`
-
-  - Expected value: integer
-  - Default value: 1
-  - Description: Number of lines that will be inserted between a heading and the
-    first paragraph/bullet point under it.
+  - Expected value: none
+  - Default value: N/A
+  - Description: Should star/asterisk (\*) be used for bullet points instead of
+    dash (-)
 
 - `-h`
 
@@ -72,21 +68,26 @@ space, e.g. `-f file.md`
   - Default value: N/A
   - Description: Print the help message.
 
-- `-v`
-
-  - Expected value: none
-  - Default value: N/A
-  - Description: Print version information
-
 ## Roadmap
 
-### Input and output
+### Features
 
 - Ability to output formatted file to stdout
+
   - `fomrark -f unformatted.md > formatted.md`
   - This can also serve as preview
   - (Syntax not finalised)
+
 - Ability to take file from stdin and format it, either writing to a file or
   stdout.
+
   - `cat unformatted.md | formark > formatted.md`
   - `cat unformatted.md | formark -o formatted.md`
+
+- Specifying different extensions
+
+  - Currently github-flavored-markdown is the only (hardcoded) option
+
+### Bugs
+
+- weird number of spaces after bullet point when using bigger indentation values
