@@ -55,12 +55,11 @@ space, e.g. `-f file.md`
     this value.
     - Wrapping is done as a single line break, so output is not affected.
 
-- `-s,--use-star`
+- `-d,--use-dash`
 
   - Expected value: none
   - Default value: N/A
-  - Description: Should star/asterisk (\*) be used for bullet points instead of
-    dash (-)
+  - Description: Should dash be used for bullet points instead of star/asterisk
 
 - `-h`
 

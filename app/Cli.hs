@@ -16,7 +16,7 @@ data CliOpts = CliOpts
     outFilePath :: String,
     indentationLevel :: Int,
     maxLineLnegth :: Int,
-    useStartBullet :: Bool
+    useDashBullet :: Bool
   }
   deriving (Eq)
 
@@ -54,10 +54,10 @@ processCli =
           <> help "Maximum length of a line before it gets wrapped"
       )
     <*> switch
-      ( long "use-star"
-          <> short 's'
+      ( long "use-dash"
+          <> short 'd'
           <> showDefault
-          <> help "Use star/asterisk/* for bullet points instead of dash"
+          <> help "Use dash (-) for bullet points instead of star/asterisk(*)"
       )
 
 opts =

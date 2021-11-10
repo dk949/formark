@@ -40,5 +40,5 @@ format opts file =
    in case runPure result of
         Right t -> (fixes . T.unpack) t
           where
-            fixes = if useStartBullet opts then dashReplacer else id
+            fixes = if useDashBullet opts then id else dashReplacer
         Left _ -> file
