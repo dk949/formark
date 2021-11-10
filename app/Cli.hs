@@ -1,29 +1,15 @@
 module Cli
-  ( processCli,
-    CliOpts (..),
+  ( CliOpts (..),
     opts,
+    execParser,
   )
 where
 
-import Data.Maybe
+import Control.Applicative ((<**>))
 import Data.Semigroup ((<>))
-import Options.Applicative
-import Text.Read
-
-helpStr :: String
-helpStr =
-  unlines
-    [ "formark -f FILE [-i N -l N -b C -n N -h -v]",
-      "",
-      "-f FILE      path to input file",
-      "-o FILE      path to output file",
-      "-i N         indentation level",
-      "-l N         max line length",
-      "-b C         bullet point character",
-      "-n N         number of lines to insert between heading and text under heading",
-      "-h           help",
-      "-v           version"
-    ]
+import Options.Applicative.Builder
+import Options.Applicative.Extra (execParser, helper)
+import Options.Applicative.Types (Parser)
 
 data CliOpts = CliOpts
   { inFilePath :: String,
@@ -34,22 +20,19 @@ data CliOpts = CliOpts
   }
   deriving (Eq)
 
-versionStr :: String
-versionStr = "0.1.0"
-
 processCli :: Parser CliOpts
 processCli =
   CliOpts
     <$> strOption
       ( long "input-file"
           <> short 'f'
-          <> metavar "FILE"
+          <> metavar "INFILE"
           <> help "Path to input file"
       )
     <*> strOption
       ( long "output-file"
           <> short 'o'
-          <> metavar "FILE"
+          <> metavar "OUTFILE"
           <> help "Path to output file"
       )
     <*> option
@@ -82,5 +65,5 @@ opts =
     (processCli <**> helper)
     ( fullDesc
         <> header "Formatter for markdown"
-        <> progDesc "Formats a markdown file"
+        <> footer "For bug reports use https://github.com/dk949/formark/issues"
     )

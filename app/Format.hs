@@ -2,11 +2,16 @@ module Format where
 
 import Cli (CliOpts (..))
 import Data.Default (def)
-import Data.Text as T (Text (..), pack, unpack)
-import Text.Pandoc.Class (PandocPure, runIO, runPure, unPandocPure)
-import Text.Pandoc.Error (PandocError (..), handleError)
-import Text.Pandoc.Extensions (extensionsFromList)
-import Text.Pandoc.Options (Extension (..), githubMarkdownExtensions, readerExtensions, writerColumns, writerExtensions, writerTabStop)
+import Data.Text as T (pack, unpack)
+import Text.Pandoc.Class (runPure)
+import Text.Pandoc.Options
+  ( extensionsFromList,
+    githubMarkdownExtensions,
+    readerExtensions,
+    writerColumns,
+    writerExtensions,
+    writerTabStop,
+  )
 import Text.Pandoc.Readers.Markdown (readMarkdown)
 import Text.Pandoc.Writers.Markdown (writeMarkdown)
 import Text.Regex (mkRegex, subRegex)
