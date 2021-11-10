@@ -21,6 +21,10 @@ dependencies:
 - base >=4.5.0
 - text
 - parsec
+- pandoc
+- data-default
+- regex-compat
+- optparse-applicative
 
 executables:
   formark-exe:

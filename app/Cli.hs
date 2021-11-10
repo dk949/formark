@@ -1,16 +1,14 @@
 module Cli
   ( processCli,
+    CliOpts (..),
+    opts,
   )
 where
 
 import Data.Maybe
+import Data.Semigroup ((<>))
+import Options.Applicative
 import Text.Read
-import Types
-
-type OptionsResult = Either String Options
-
-defaultOpt :: Options
-defaultOpt = Options Nothing Nothing 4 80 '*' 1
 
 helpStr :: String
 helpStr =
@@ -27,43 +25,62 @@ helpStr =
       "-v           version"
     ]
 
+data CliOpts = CliOpts
+  { inFilePath :: String,
+    outFilePath :: String,
+    indentationLevel :: Int,
+    maxLineLnegth :: Int,
+    useStartBullet :: Bool
+  }
+  deriving (Eq)
+
 versionStr :: String
 versionStr = "0.1.0"
 
-processCli :: [String] -> OptionsResult
-processCli = parse defaultOpt
+processCli :: Parser CliOpts
+processCli =
+  CliOpts
+    <$> strOption
+      ( long "input-file"
+          <> short 'f'
+          <> metavar "FILE"
+          <> help "Path to input file"
+      )
+    <*> strOption
+      ( long "output-file"
+          <> short 'o'
+          <> metavar "FILE"
+          <> help "Path to output file"
+      )
+    <*> option
+      auto
+      ( long "indentation"
+          <> short 'i'
+          <> metavar "N"
+          <> value 2
+          <> showDefault
+          <> help "Indentation level"
+      )
+    <*> option
+      auto
+      ( long "max-line-length"
+          <> short 'l'
+          <> metavar "N"
+          <> value 80
+          <> showDefault
+          <> help "Maximum length of a line before it gets wrapped"
+      )
+    <*> switch
+      ( long "use-star"
+          <> short 's'
+          <> showDefault
+          <> help "Use star/asterisk/* for bullet points instead of dash"
+      )
 
-parse :: Options -> [String] -> OptionsResult
---
-parse prevOpt ("-f" : path : rest) = parse (prevOpt {inFilePath = Just path}) rest
---
-parse prevOpt ("-o" : path : rest) = parse (prevOpt {outFilePath = Just path}) rest
---
-parse prevOpt ("-i" : num : rest) =
-  case readMaybe num :: Maybe Int of
-    Just n -> parse (prevOpt {indentationLevel = n}) rest
-    Nothing -> Left ("-i expected a number as argument, got " ++ num)
---
-parse prevOpt ("-l" : num : rest) =
-  case readMaybe num :: Maybe Int of
-    Just n -> parse (prevOpt {maxLineLnegth = n}) rest
-    Nothing -> Left ("-l expected a number as argument, got " ++ num)
---
-parse prevOpt ("-b" : ch : rest)
-  | length ch == 1 && c == '*' || c == '-' = parse (prevOpt {bulletPointChar = c}) rest
-  | otherwise = Left ("-b expected one of * or - got " ++ ch)
-  where
-    c = head ch
---
-parse prevOpt ("-n" : num : rest) =
-  case readMaybe num :: Maybe Int of
-    Just n -> parse (prevOpt {numLinesUnderHeading = n}) rest
-    Nothing -> Left ("-n expected a number as argument, got " ++ num)
---
-parse prevOpt ("-h" : _) = Left helpStr
-parse prevOpt ("-v" : _) = Left versionStr
-parse prevOpt [badOpt] = Left ("Unrecognised option: " ++ badOpt ++ ". It is possible this option takes arguments")
-parse prevOpt (badOpt : _) = Left ("Unrecognised option: " ++ badOpt)
-parse prevOpt []
-  | prevOpt == defaultOpt = Left "Expected arguments. Try -h for help"
-  | otherwise = Right prevOpt
+opts =
+  info
+    (processCli <**> helper)
+    ( fullDesc
+        <> header "Formatter for markdown"
+        <> progDesc "Formats a markdown file"
+    )
