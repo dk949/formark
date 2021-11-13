@@ -1,11 +1,45 @@
 # Formark - A formatter for Markdown
 
+![Build](https://github.com/dk949/formark/actions/workflows/haskell.yaml/badge.svg)
+[![License: MIT](https://img.shields.io/badge/License-BSD3-blue.svg)](https://opensource.org/licenses/BSD-3-Clause)
+
+
+
+* [Installation](#installation)
+  * [From Github release](#from-github-release)
+  * [From Source](#from-source)
+  * [From Script](#from-script)
 * [Usage](#usage)
   * [Basic usage](#basic-usage)
   * [Options](#options)
 * [Roadmap](#roadmap)
   * [Features](#features)
   * [Bugs](#bugs)
+
+## Installation
+
+### From Github release
+
+* The latest stable release should be available in the releases tab
+* You can download and place it in a PATH directory.
+
+### From Source
+
+* Building the project for the first time from source can take a long time (15+
+  min)
+* To build and install the program from source, clone the repository, then run
+
+``` sh
+stack build && stack install
+```
+
+### From Script
+
+* Coming soon
+
+``` sh
+curl "$SCRIPT_URL" | sh
+```
 
 ## Usage
 
