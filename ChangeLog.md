@@ -1,3 +1,7 @@
+## 0.2.1
+
+* Added mac and windows support
+
 ## 0.2.0
 
 * Removed custom parser
