@@ -33,10 +33,7 @@ jobs:
         run: stack build --local-bin-path build/ --copy-bins
 
       - name: Package
-        uses: papeloto/action-zip@v1
-        with:
-          files: ${{ github.workspace }}/build/formark
-          dest: ${{ github.workspace }}/build/formark-${{ runner.os }}.zip
+        run: 7z a ${{ github.workspace }}/build/formark-${{ runner.os }}.zip ${{ github.workspace }}/build/formark
 
       - name: Release
         uses: softprops/action-gh-release@v1
