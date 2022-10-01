@@ -1,0 +1,34 @@
+# grammar implemented from commonmark 0.30 spec
+# https://spec.commonmark.org/0.30/
+
+# This is the main grammar
+
+Markdown:
+
+Block <- LeafBlock
+
+LeafBlock <-    / ThematicBreak
+                / ATXHeading
+
+ThematicBreak <- NonindentSpace (
+                                / '*' Sp '*' (Sp '*')+
+                                / '-' Sp '-' (Sp '-')+
+                                / '_' Sp '_' (Sp '_')+
+                                ) Sp Prelim.LineEnding
+
+
+# Note: This is technically incorrect. The spec requires at least 1 space or tab after the heading.
+#   However, most modern implementations ignore this.
+ATXHeading <- NonindentSpace HeadingLevel Sp Inline
+
+HeadingLevel <- '#' '#'? '#'? '#'? '#'? '#'?
+
+
+
+
+Inline <- (!Prelim.LineEnding .)
+
+
+Sp <- (Prelim.Space / Prelim.TaB)*
+NonindentSpace <: Prelim.Space? Prelim.Space? Prelim.Space?
+Indent <- Prelim.Tab / (Prelim.Space Prelim.Space Prelim.Space Prelim.Space)

@@ -1,0 +1,42 @@
+# grammar implemented from commonmark 0.30 spec
+# https://spec.commonmark.org/0.30/
+
+# This grammar implements section 2 - Preliminaries.
+
+Prelim:
+
+
+# A line is a sequence of zero or more characters other than line feed (U+000A) or carriage return (U+000D), followed by a line ending or by the end of file.
+# A line containing no characters, or a line containing only spaces (U+0020) or tabs (U+0009), is called a blank line.
+BlankLine <- (!(LineEnding / eoi) (Space/ Tab))* (LineEnding / eoi)
+Line <- (!(LineEnding / eoi) Character)+ (LineEnding / eoi)
+
+# A line ending is a line feed (U+000A), a carriage return (U+000D) not followed by a line feed, or a carriage return and a following line feed.
+LineEnding <-   / CarriageReturn LineFeed
+                / LineFeed
+                / CarriageReturn
+
+
+# Unicode whitespace is a sequence of one or more Unicode whitespace characters.
+Whitespace <~ WhitespaceCharacter+
+
+# A tab is U+0009.
+Tab                     <- '\u0009'
+
+LineFeed                <- '\u000A'
+FeedForm                <- '\u000C'
+CarriageReturn          <- '\u000D'
+
+# A space is U+0020.
+Space                   <- '\u0020'
+
+# Entity references consist of & + any of the valid HTML5 entity names + ;. The document https://html.spec.whatwg.org/entities.json is used as an authoritative source for the valid entity references and their corresponding code points.
+EntityReference <- '&' HTML5EntityName ';'
+
+# Decimal numeric character references consist of &# + a string of 1–7 arabic digits + ;. A numeric character reference is parsed as the corresponding Unicode character.
+DecimalNumericReference <- "&#" digit digit? digit? digit? digit? digit? digit? ';'
+
+#Hexadecimal numeric character references consist of &# + either X or x + a string of 1-6 hexadecimal digits + ;.
+HexadecimalNumericReference <- "&#" ('X' / 'x') hexDigit hexDigit? hexDigit? hexDigit? hexDigit? hexDigit? ';'
+
+Character <- .

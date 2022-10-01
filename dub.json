@@ -1,0 +1,13 @@
+{
+	"authors": [
+		"dk949"
+	],
+	"copyright": "Copyright © 2022, dk949",
+	"dependencies": {
+		"pegged": "~>0.4.6"
+	},
+	"description": "A formatter formarkdown",
+	"license": "BSD-3",
+	"name": "formark",
+    "dflags": ["-lowmem"]
+}
